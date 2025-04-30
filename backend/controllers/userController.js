@@ -12,7 +12,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
-    res.status(400);
+    res.status(400); //stscode
     throw new Error('Please include all fields');
   }
 

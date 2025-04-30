@@ -1,6 +1,5 @@
-
-const asyncHandler = require('express-async-handler');
-const Task = require('../models/taskModel');
+const asyncHandler = require("express-async-handler");
+const Task = require("../models/taskModel");
 
 // @desc    Get all tasks
 // @route   GET /api/tasks
@@ -14,11 +13,20 @@ const getTasks = asyncHandler(async (req, res) => {
 // @route   POST /api/tasks
 // @access  Private
 const createTask = asyncHandler(async (req, res) => {
-  const { title, description, dueDate, priority, status, category, tags, notes } = req.body;
+  const {
+    title,
+    description,
+    dueDate,
+    priority,
+    status,
+    category,
+    tags,
+    notes,
+  } = req.body;
 
   if (!title) {
     res.status(400);
-    throw new Error('Please add a title');
+    throw new Error("Please add a title");
   }
 
   const task = await Task.create({
@@ -44,13 +52,13 @@ const getTask = asyncHandler(async (req, res) => {
 
   if (!task) {
     res.status(404);
-    throw new Error('Task not found');
+    throw new Error("Task not found");
   }
 
   // Check if task belongs to user
   if (task.user.toString() !== req.user.id) {
     res.status(401);
-    throw new Error('Not authorized');
+    throw new Error("Not authorized");
   }
 
   res.status(200).json(task);
@@ -64,13 +72,13 @@ const updateTask = asyncHandler(async (req, res) => {
 
   if (!task) {
     res.status(404);
-    throw new Error('Task not found');
+    throw new Error("Task not found");
   }
 
   // Check if task belongs to user
   if (task.user.toString() !== req.user.id) {
     res.status(401);
-    throw new Error('Not authorized');
+    throw new Error("Not authorized");
   }
 
   const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
@@ -89,13 +97,13 @@ const deleteTask = asyncHandler(async (req, res) => {
 
   if (!task) {
     res.status(404);
-    throw new Error('Task not found');
+    throw new Error("Task not found");
   }
 
   // Check if task belongs to user
   if (task.user.toString() !== req.user.id) {
     res.status(401);
-    throw new Error('Not authorized');
+    throw new Error("Not authorized");
   }
 
   await task.deleteOne();
@@ -108,27 +116,31 @@ const deleteTask = asyncHandler(async (req, res) => {
 // @access  Private
 const getTaskAnalytics = asyncHandler(async (req, res) => {
   const tasks = await Task.find({ user: req.user.id });
-  
+
   // Calculate analytics
   const totalTasks = tasks.length;
-  const completedTasks = tasks.filter(task => task.status === 'completed').length;
-  const pendingTasks = tasks.filter(task => task.status === 'pending').length;
-  const inProgressTasks = tasks.filter(task => task.status === 'in-progress').length;
-  
+  const completedTasks = tasks.filter(
+    (task) => task.status === "completed"
+  ).length;
+  const pendingTasks = tasks.filter((task) => task.status === "pending").length;
+  const inProgressTasks = tasks.filter(
+    (task) => task.status === "in-progress"
+  ).length;
+
   // Group tasks by category
   const tasksByCategory = {};
-  tasks.forEach(task => {
-    const category = task.category || 'uncategorized';
+  tasks.forEach((task) => {
+    const category = task.category || "uncategorized";
     tasksByCategory[category] = (tasksByCategory[category] || 0) + 1;
   });
-  
+
   // Group tasks by priority
   const tasksByPriority = {
-    low: tasks.filter(task => task.priority === 'low').length,
-    medium: tasks.filter(task => task.priority === 'medium').length,
-    high: tasks.filter(task => task.priority === 'high').length,
+    low: tasks.filter((task) => task.priority === "low").length,
+    medium: tasks.filter((task) => task.priority === "medium").length,
+    high: tasks.filter((task) => task.priority === "high").length,
   };
-  
+
   const analytics = {
     totalTasks,
     completedTasks,
@@ -138,7 +150,7 @@ const getTaskAnalytics = asyncHandler(async (req, res) => {
     tasksByCategory,
     tasksByPriority,
   };
-  
+
   res.status(200).json(analytics);
 });
 

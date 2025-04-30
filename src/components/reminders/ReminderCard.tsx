@@ -16,7 +16,7 @@ import {
 import ReminderForm from './ReminderForm';
 import { cn } from '@/lib/utils';
 
-// Props interface for ReminderCard
+// Props interface for ReminderCard 
 interface ReminderCardProps {
   reminder: Reminder;
 }

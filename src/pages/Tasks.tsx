@@ -1,28 +1,33 @@
-
-import React, { useState } from 'react';
-import Layout from '@/components/layout/Layout';
-import TaskList from '@/components/tasks/TaskList';
-import { Button } from '@/components/ui/button';
-import { Download, Plus } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import TaskForm from '@/components/tasks/TaskForm';
-import { useTaskContext } from '@/context/TaskContext';
-import { useUserContext } from '@/context/UserContext';
-import AITaskAssistant from '@/components/tasks/AITaskAssistant';
-import { generateTasksReport } from '@/utils/reportGenerator';
-import { format } from 'date-fns';
-import { toast } from 'sonner';
+import React, { useState } from "react";
+import Layout from "@/components/layout/Layout";
+import TaskList from "@/components/tasks/TaskList";
+import { Button } from "@/components/ui/button";
+import { Download, Plus } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import TaskForm from "@/components/tasks/TaskForm";
+import { useTaskContext } from "@/context/TaskContext";
+import { useUserContext } from "@/context/UserContext";
+import AITaskAssistant from "@/components/tasks/AITaskAssistant";
+import { generateTasksReport } from "@/utils/reportGenerator";
+import { format } from "date-fns";
+import { toast } from "sonner";
 
 const Tasks: React.FC = () => {
   const [showNewTask, setShowNewTask] = useState(false);
-  const { 
-    tasks, 
-    filteredTasks, 
-    addTask, 
-    searchQuery, 
-    statusFilter, 
-    priorityFilter, 
-    categoryFilter 
+  const {
+    tasks,
+    filteredTasks,
+    addTask,
+    searchQuery,
+    statusFilter,
+    priorityFilter,
+    categoryFilter,
   } = useTaskContext();
   const { user } = useUserContext();
 
@@ -35,27 +40,26 @@ const Tasks: React.FC = () => {
       setShowNewTask(false);
     }
   };
-  
+
   // Generate and download tasks report
+
   const handleGenerateReport = () => {
     if (!user) return;
-    
-    const doc = generateTasksReport(
-      tasks,
-      filteredTasks,
-      user.name || 'User',
-      {
-        status: statusFilter,
-        priority: priorityFilter,
-        category: categoryFilter,
-        searchQuery
-      }
-    );
-    
+
+    const doc = generateTasksReport(tasks, filteredTasks, user.name || "User", {
+      status: statusFilter,
+      priority: priorityFilter,
+      category: categoryFilter,
+      searchQuery,
+    });
+
     // Save the PDF
-    const fileName = `intellitask-tasks-report-${format(new Date(), 'yyyy-MM-dd')}.pdf`;
+    const fileName = `intellitask-tasks-report-${format(
+      new Date(),
+      "yyyy-MM-dd"
+    )}.pdf`;
     doc.save(fileName);
-    
+
     toast.success(`Tasks report downloaded as ${fileName}`);
   };
 
@@ -64,21 +68,20 @@ const Tasks: React.FC = () => {
       <div className="page-container">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Task Management</h1>
+            <h1 className="text-3xl font-bold tracking-tight">
+              Task Management
+            </h1>
             <p className="text-muted-foreground">
               Create, organize, and manage your tasks efficiently.
             </p>
           </div>
-          
+
           <div className="flex gap-2 mt-4 md:mt-0">
-            <Button 
-              variant="outline"
-              onClick={handleGenerateReport}
-            >
+            <Button variant="outline" onClick={handleGenerateReport}>
               <Download className="h-4 w-4 mr-2" />
               Generate Report
             </Button>
-            
+
             <Dialog open={showNewTask} onOpenChange={setShowNewTask}>
               <DialogTrigger asChild>
                 <Button>
@@ -95,10 +98,10 @@ const Tasks: React.FC = () => {
             </Dialog>
           </div>
         </div>
-        
+
         <TaskList />
       </div>
-      
+
       <AITaskAssistant />
     </Layout>
   );

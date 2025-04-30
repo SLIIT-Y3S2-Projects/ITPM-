@@ -18,7 +18,7 @@ const { protect } = require('../middleware/authMiddleware');
 // Route: GET /api/reminders
 // Description: Get all reminders for the authenticated user
 // Access: Private
-// Route: POST /api/reminders
+
 // Description: Create a new reminder for the authenticated user
 // Access: Private
 router.route('/')

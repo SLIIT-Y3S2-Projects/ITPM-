@@ -21,7 +21,7 @@ interface ReminderCardProps {
   reminder: Reminder;
 }
 
-// Map reminder type to corresponding icon
+//  Map reminder type to corresponding icon
 const typeIconMap = {
   'time-based': Clock,
   'location-based': MapPin,

@@ -40,10 +40,8 @@ router.route('/analytics')
 // Route: DELETE /api/reminders/:id
 // Description: Delete a reminder by ID
 // Access: Private
-router.route('/:id')
-  .get(protect, getReminder)       // Get a single reminder
-  .put(protect, updateReminder)    // Update a reminder
-  .delete(protect, deleteReminder); // Delete a reminder
+ // Delete a reminder
+ 
 
 // Export the router to be used in the main app
 module.exports = router;

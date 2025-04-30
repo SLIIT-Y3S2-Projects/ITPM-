@@ -12,8 +12,8 @@ const {
 const { protect } = require('../middleware/authMiddleware');
 
 router.route('/')
-  .get(protect, getReminders)
-  .post(protect, createReminder);
+  .get(protect, getReminders)//get
+  .post(protect, createReminder);// post
 
 router.route('/analytics')
   .get(protect, getReminderAnalytics);

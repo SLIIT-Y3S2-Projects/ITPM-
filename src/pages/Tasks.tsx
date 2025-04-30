@@ -42,7 +42,6 @@ const Tasks: React.FC = () => {
   };
 
   // Generate and download tasks report
-
   const handleGenerateReport = () => {
     if (!user) return;
 

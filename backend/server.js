@@ -9,6 +9,7 @@ const { errorHandler } = require('./middleware/errorMiddleware');
 const userRoutes = require('./routes/userRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const reminderRoutes = require('./routes/reminderRoutes');
+const analyticsRoutes = require('./routes/analyticsRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -27,6 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/users', userRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/reminders', reminderRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Base route
 app.get('/', (req, res) => {

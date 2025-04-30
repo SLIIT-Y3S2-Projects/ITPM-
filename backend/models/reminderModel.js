@@ -48,3 +48,4 @@ const reminderSchema = mongoose.Schema(
 );
 
 module.exports = mongoose.model('Reminder', reminderSchema);
+//export 

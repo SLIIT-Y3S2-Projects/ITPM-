@@ -19,6 +19,8 @@ export interface Task {
   };
 }
 
+
+
 export interface TaskAnalytics {
   totalTasks: number;
   completedTasks: number;

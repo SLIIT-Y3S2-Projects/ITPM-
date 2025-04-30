@@ -1,4 +1,4 @@
-# Welcome to ITPM project
+# Welcome to ITELLI TASK project
 
 ## Project info
 

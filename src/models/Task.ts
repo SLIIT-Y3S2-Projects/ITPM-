@@ -17,7 +17,6 @@ export interface Task {
     reason: string;
   };
 }
-
 export interface TaskAnalytics {
   totalTasks: number;
   completedTasks: number;

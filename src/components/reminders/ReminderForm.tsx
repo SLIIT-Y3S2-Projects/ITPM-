@@ -1,9 +1,10 @@
-
 import React from 'react';
 import { Reminder } from '@/models/Reminder';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+
+// UI components
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -29,15 +30,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 
 interface ReminderFormProps {
-  isEditing?: boolean;
-  initialData?: Reminder;
-  onSubmit: (data: Partial<Reminder>) => void;
+  isEditing?: boolean; // Indicates if the form is used for editing an existing reminder
+  initialData?: Reminder; // Initial data for pre-filling form when editing
+  onSubmit: (data: Partial<Reminder>) => void; // Function to call on form submission
 }
 
+// Define validation schema using Zod
 const formSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   description: z.string().optional(),
@@ -48,6 +51,7 @@ const formSchema = z.object({
 });
 
 const ReminderForm: React.FC<ReminderFormProps> = ({ isEditing = false, initialData, onSubmit }) => {
+  // Initialize form with default values or initial data
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,9 +63,10 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ isEditing = false, initialD
       locationName: initialData?.location?.name || '',
     },
   });
-  
-  const reminderType = form.watch('type');
-  
+
+  const reminderType = form.watch('type'); // Watch for changes in reminder type to conditionally render fields
+
+  // Handle form submission
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
     const formattedValues: Partial<Reminder> = {
       title: values.title,
@@ -69,26 +74,29 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ isEditing = false, initialD
       type: values.type,
       date: values.date,
     };
-    
+
+    // Include frequency if reminder is recurring
     if (values.type === 'recurring' && values.frequency) {
       formattedValues.frequency = values.frequency;
     }
-    
+
+    // Include location data if reminder is location-based
     if (values.type === 'location-based' && values.locationName) {
       formattedValues.location = {
         name: values.locationName,
-        // In a real app, we would use a location API to get coordinates
+        // Static location coordinates for demo purposes
         latitude: 37.7749,
         longitude: -122.4194,
       };
     }
-    
-    onSubmit(formattedValues);
+
+    onSubmit(formattedValues); // Call the parent onSubmit handler
   };
-  
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+        {/* Title Field */}
         <FormField
           control={form.control}
           name="title"
@@ -102,7 +110,8 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ isEditing = false, initialD
             </FormItem>
           )}
         />
-        
+
+        {/* Description Field */}
         <FormField
           control={form.control}
           name="description"
@@ -116,7 +125,8 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ isEditing = false, initialD
             </FormItem>
           )}
         />
-        
+
+        {/* Reminder Type Selection */}
         <FormField
           control={form.control}
           name="type"
@@ -139,8 +149,10 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ isEditing = false, initialD
             </FormItem>
           )}
         />
-        
+
+        {/* Date Picker and Conditional Fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Date Field */}
           <FormField
             control={form.control}
             name="date"
@@ -157,11 +169,7 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ isEditing = false, initialD
                           !field.value && "text-muted-foreground"
                         )}
                       >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
+                        {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
                     </FormControl>
@@ -179,7 +187,8 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ isEditing = false, initialD
               </FormItem>
             )}
           />
-          
+
+          {/* Frequency Field - shown only for recurring reminders */}
           {reminderType === 'recurring' && (
             <FormField
               control={form.control}
@@ -205,7 +214,8 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ isEditing = false, initialD
               )}
             />
           )}
-          
+
+          {/* Location Name Field - shown only for location-based reminders */}
           {reminderType === 'location-based' && (
             <FormField
               control={form.control}
@@ -222,7 +232,8 @@ const ReminderForm: React.FC<ReminderFormProps> = ({ isEditing = false, initialD
             />
           )}
         </div>
-        
+
+        {/* Submit Button */}
         <div className="flex justify-end space-x-2 pt-4">
           <Button type="submit" className="w-24">
             {isEditing ? 'Update' : 'Create'}

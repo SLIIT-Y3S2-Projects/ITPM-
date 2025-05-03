@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +8,7 @@ import { ReminderProvider } from "./context/ReminderContext";
 import { UserProvider } from "./context/UserContext";
 
 // Pages
+
 import Dashboard from "./pages/Dashboard";
 import Tasks from "./pages/Tasks";
 import Reminders from "./pages/Reminders";

@@ -1,11 +1,10 @@
-
 export interface Task {
   _id?: string;
   title: string;
   description?: string;
   dueDate?: Date;
-  priority: 'low' | 'medium' | 'high';
-  status: 'pending' | 'in-progress' | 'completed' | 'missed';
+  priority: "low" | "medium" | "high";
+  status: "pending" | "in-progress" | "completed" | "missed";
   category?: string;
   userId: string;
   createdAt: Date;
@@ -18,7 +17,6 @@ export interface Task {
     reason: string;
   };
 }
-
 export interface TaskAnalytics {
   totalTasks: number;
   completedTasks: number;

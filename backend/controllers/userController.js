@@ -12,7 +12,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
-    res.status(400);
+    res.status(400); //stscode
     throw new Error('Please include all fields');
   }
 
@@ -82,7 +82,7 @@ const getMe = asyncHandler(async (req, res) => {
 
 // @desc    Update user profile
 // @route   PUT /api/users/me
-// @access  Private
+// @access  private
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id);
 

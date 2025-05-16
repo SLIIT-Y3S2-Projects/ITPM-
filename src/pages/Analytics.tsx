@@ -67,7 +67,7 @@ const Analytics: React.FC = () => {
     }
   }, [customReports]);
   
-  // Handle saving a new custom report
+  // Handle saving a new custom reportl
   const handleSaveCustomReport = (report: CustomReport) => {
     setCustomReports(prev => [...prev, report]);
     setShowCustomReportConfig(false);

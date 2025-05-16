@@ -52,6 +52,8 @@ const Tasks: React.FC = () => {
       searchQuery,
     });
 
+    
+
     // Save the PDF material
     const fileName = `intellitask-tasks-report-${format(
       new Date(),

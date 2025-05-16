@@ -103,6 +103,8 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
         result = result.filter((task) => task.category === categoryFilter);
       }
 
+
+      
       setFilteredTasks(result);
     } else {
       setFilteredTasks([]);

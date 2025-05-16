@@ -75,7 +75,7 @@ const Analytics: React.FC = () => {
     setReportType('custom');
   };
   
-  // Handle selecting a custom report
+  // Handle selecting a custom reportl
   const handleSelectCustomReport = (reportId: string) => {
     if (reportId === 'new') {
       setShowCustomReportConfig(true);
